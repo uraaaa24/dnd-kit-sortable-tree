@@ -5,7 +5,7 @@ export type TreeItem = {
   id: string
   name: string
   children: TreeItem[]
-  collapsed: boolean
+  expanded: boolean
 }
 
 export type TreeItems = TreeItem[]

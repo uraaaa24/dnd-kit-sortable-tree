@@ -97,6 +97,8 @@ export const useSortableTree = ({
           (expandedId) => expandedId !== activeId && !childrenIds.includes(expandedId)
         )
       )
+
+      document.body.style.setProperty('cursor', 'grabbing')
     },
     [flattenedItems]
   )

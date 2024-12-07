@@ -2,60 +2,60 @@ import { TreeItem } from '@/type/treeItem'
 
 export const initialItems: TreeItem[] = [
   {
-    id: 'root',
-    name: 'root',
+    id: '1',
+    name: 'バナナ',
     children: [
       {
-        id: '1',
-        name: '1',
-        children: [
-          {
-            id: '1-1',
-            name: '1-1',
-            children: [],
-            collapsed: false
-          }
-        ],
-        collapsed: false
+        id: '2',
+        name: 'キャベンディッシュ',
+        children: [],
+        expanded: false
       },
       {
-        id: '2',
-        name: '2',
+        id: '3',
+        name: 'レディフィンガー',
         children: [],
-        collapsed: false
+        expanded: false
       }
     ],
-    collapsed: false
-  },
-  {
-    id: '3',
-    name: '3',
-    children: [],
-    collapsed: false
+    expanded: false
   },
   {
     id: '4',
-    name: '4',
-    children: [],
-    collapsed: false
-  },
-  {
-    id: '5',
-    name: '5',
+    name: 'リンゴ',
     children: [
       {
-        id: '5-1',
-        name: '5-1',
+        id: '5',
+        name: 'ふじ',
         children: [],
-        collapsed: false
+        expanded: false
       },
       {
-        id: '5-2',
-        name: '5-2',
+        id: '6',
+        name: '紅玉',
         children: [],
-        collapsed: false
+        expanded: false
       }
     ],
-    collapsed: false
+    expanded: false
+  },
+  {
+    id: '7',
+    name: 'オレンジ',
+    children: [],
+    expanded: false
+  },
+  {
+    id: '8',
+    name: 'メロン',
+    children: [
+      {
+        id: '9',
+        name: 'マスクメロン',
+        children: [],
+        expanded: false
+      }
+    ],
+    expanded: false
   }
 ]

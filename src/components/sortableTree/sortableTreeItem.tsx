@@ -1,6 +1,6 @@
 import { CSS } from '@dnd-kit/utilities'
 import { AnimateLayoutChanges, useSortable } from '@dnd-kit/sortable'
-import { CSSProperties, FC } from 'react'
+import { CSSProperties } from 'react'
 import { FlattenedItem } from '@/type/treeItem'
 import { ChevronDown, ChevronRight, GripVertical } from 'lucide-react'
 
@@ -17,7 +17,7 @@ type SortableTreeItemProps = {
 const animateLayoutChanges: AnimateLayoutChanges = ({ isSorting, wasDragging }) =>
   isSorting || wasDragging ? false : true
 
-export const SortableTreeItem: FC<SortableTreeItemProps> = ({
+export const SortableTreeItem = ({
   item,
   depth,
   onExpand,
@@ -25,7 +25,7 @@ export const SortableTreeItem: FC<SortableTreeItemProps> = ({
   indentionWidth,
   clone,
   childrenCount
-}) => {
+}: SortableTreeItemProps) => {
   const {
     isDragging,
     setDroppableNodeRef,
@@ -47,57 +47,27 @@ export const SortableTreeItem: FC<SortableTreeItemProps> = ({
   return (
     <li
       ref={setDroppableNodeRef}
-      className={`
-        w-full 
-        list-none 
-        py-0.5 
-        ${clone ? 'absolute left-4 top-4' : ''}
-      `}
+      className={`w-full list-none py-0.5 ${clone ? 'absolute left-4 top-4' : ''}`}
       style={{
         paddingLeft: clone ? 0 : depth * indentionWidth
       }}
     >
       <div
         ref={setDraggableNodeRef}
-        className={`
-          flex 
-          items-center 
-          gap-2 
-          border 
-          border-gray-200 
-          bg-white 
-          p-2 
-          rounded 
-          ${isDragging ? 'opacity-50 shadow-md' : 'opacity-100'}
-        `}
+        className={`flex items-center gap-2 border  border-gray-200  bg-white p-2 rounded ${
+          isDragging ? 'opacity-50 shadow-md' : 'opacity-100'
+        }`}
         style={style}
       >
         {clone ? (
-          <span
-            className="
-            flex 
-            h-5 
-            w-5 
-            items-center 
-            justify-center 
-            rounded-full 
-            bg-gray-100 
-            text-xs 
-            font-medium 
-            text-gray-600
-          "
-          >
-            {childrenCount}
+          <span className="flex h-5 items-center justify-center rounded-full bg-gray-100 text-xs font-medium text-gray-600">
+            {childrenCount && childrenCount > 0 ? childrenCount : ''}
           </span>
         ) : (
           <button
             {...attributes}
             {...listeners}
-            className="
-              text-gray-500 
-              hover:text-gray-700 
-              cursor-move
-            "
+            className="text-gray-500 hover:text-gray-700 cursor-grab"
           >
             <GripVertical size={16} />
           </button>

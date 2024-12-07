@@ -98,7 +98,7 @@ const findFromTreeItem = (items: TreeItem[], id: UniqueIdentifier): FlattenedIte
 }
 
 export const getChildrenIds = (
-  items: TreeItem[],
+  items: TreeItems,
   id: UniqueIdentifier,
   includeSelf = false
 ): UniqueIdentifier[] => {
@@ -174,7 +174,7 @@ export const findItem = (items: TreeItems, itemId: UniqueIdentifier) => {
  * @returns
  */
 export const buildTree = (flattenItems: FlattenedItems): TreeItems => {
-  const root: TreeItem = { id: 'root', name: 'root', collapsed: false, children: [] }
+  const root: TreeItem = { id: 'root', name: 'root', expanded: false, children: [] }
   const nodes: Record<string, TreeItem> = { [root.id]: root }
   const items = flattenItems.map((item) => ({ ...item, children: [] }))
 
