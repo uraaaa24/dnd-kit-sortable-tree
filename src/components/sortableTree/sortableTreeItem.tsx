@@ -9,7 +9,7 @@ type SortableTreeItemProps = {
   depth: number
   onExpand?: () => void
   expanded?: boolean
-  indentionWidth: number
+  indentationWidth: number
   clone?: boolean
   childrenCount?: number
 }
@@ -22,7 +22,7 @@ export const SortableTreeItem = ({
   depth,
   onExpand,
   expanded,
-  indentionWidth,
+  indentationWidth,
   clone,
   childrenCount
 }: SortableTreeItemProps) => {
@@ -49,7 +49,7 @@ export const SortableTreeItem = ({
       ref={setDroppableNodeRef}
       className={`w-full list-none py-0.5 ${clone ? 'absolute left-4 top-4' : ''}`}
       style={{
-        paddingLeft: clone ? 0 : depth * indentionWidth
+        paddingLeft: clone ? 0 : depth * indentationWidth
       }}
     >
       <div

@@ -61,26 +61,17 @@ const SortableTree = ({ defaultItems }: SortableTreeProps) => {
     activeId,
     activeItem,
     sortedIds,
-    expandedIds,
-    projected,
     getDndContextProps,
-    handleToggleExpand
+    getSortableTreeItemProps
   } = useSortableTree({ defaultItems })
 
   const sensors = useSensors(useSensor(PointerSensor))
 
   return (
-    <DndContext sensors={sensors} {...getDndContextProps(measuring)}>
+    <DndContext {...getDndContextProps(sensors, measuring)}>
       <SortableContext items={sortedIds}>
         {flattenedItems.map((item) => (
-          <SortableTreeItem
-            key={item.id}
-            item={item}
-            depth={item.id === activeId && projected ? projected.depth : item.depth}
-            onExpand={item.children.length > 0 ? () => handleToggleExpand(item.id) : undefined}
-            expanded={item.children.length > 0 && expandedIds.includes(item.id)}
-            indentionWidth={INDENTION_WIDTH}
-          />
+          <SortableTreeItem key={item.id} {...getSortableTreeItemProps(item, INDENTION_WIDTH)} />
         ))}
 
         {createPortal(
@@ -89,7 +80,7 @@ const SortableTree = ({ defaultItems }: SortableTreeProps) => {
               <SortableTreeItem
                 item={activeItem}
                 depth={activeItem.depth}
-                indentionWidth={INDENTION_WIDTH}
+                indentationWidth={INDENTION_WIDTH}
                 clone
                 childrenCount={getChildrenIds(flattenedItems, activeId).length}
               />
