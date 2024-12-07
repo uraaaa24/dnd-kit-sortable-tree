@@ -20,7 +20,7 @@ import { arrayMove } from '@dnd-kit/sortable'
  * @returns
  */
 const getDragDepth = (offSet: number, indentationWidth: number) => {
-  return Math.max(0, Math.round(offSet / indentationWidth))
+  return Math.round(offSet / indentationWidth)
 }
 
 const getDepth = (depth: number, previousItem: FlattenedItem, nextItem: FlattenedItem) => {
@@ -46,7 +46,7 @@ const getParentId = (
   }
 
   if (depth === previousItem.depth) {
-    return previousItem.parentId
+    return previousItem.parentId ?? null
   }
 
   if (depth > previousItem.depth) {
@@ -81,11 +81,14 @@ export const getProjection = (
   const overItemIndex = items.findIndex(({ id }) => id === overId)
   const activeItemIndex = items.findIndex(({ id }) => id === activeId)
   const activeItem = items[activeItemIndex]
+
   const newItems = arrayMove(items, activeItemIndex, overItemIndex)
   const previousItem = newItems[overItemIndex - 1]
   const nextItem = newItems[overItemIndex + 1]
+
   const dragDepth = getDragDepth(dragOffset, indentationWidth)
   const projectedDepth = activeItem.depth + dragDepth
+
   const depth = getDepth(projectedDepth, previousItem, nextItem)
   const parentId = getParentId(depth, overItemIndex, previousItem, newItems)
 

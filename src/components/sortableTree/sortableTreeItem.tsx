@@ -54,7 +54,7 @@ export const SortableTreeItem = ({
     >
       <div
         ref={setDraggableNodeRef}
-        className={`flex items-center gap-2 border  border-gray-200  bg-white p-2 rounded ${
+        className={`flex items-center gap-2 border h-14 border-gray-200 bg-white p-2 rounded ${
           isDragging ? 'opacity-50 shadow-md' : 'opacity-100'
         }`}
         style={style}

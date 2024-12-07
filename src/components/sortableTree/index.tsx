@@ -8,7 +8,10 @@ import {
   DndContext,
   DragOverlay,
   DropAnimation,
-  MeasuringStrategy
+  MeasuringStrategy,
+  PointerSensor,
+  useSensor,
+  useSensors
 } from '@dnd-kit/core'
 import { SortableContext } from '@dnd-kit/sortable'
 import { SortableTreeItem } from './sortableTreeItem'
@@ -60,23 +63,14 @@ const SortableTree = ({ defaultItems }: SortableTreeProps) => {
     sortedIds,
     expandedIds,
     projected,
-    handleDragStart,
-    handleDragMove,
-    handleDragOver,
-    handleDragEnd,
-    handleDragCancel,
+    getDndContextProps,
     handleToggleExpand
   } = useSortableTree({ defaultItems })
 
+  const sensors = useSensors(useSensor(PointerSensor))
+
   return (
-    <DndContext
-      measuring={measuring}
-      onDragStart={handleDragStart}
-      onDragMove={handleDragMove}
-      onDragOver={handleDragOver}
-      onDragEnd={handleDragEnd}
-      onDragCancel={handleDragCancel}
-    >
+    <DndContext sensors={sensors} {...getDndContextProps(measuring)}>
       <SortableContext items={sortedIds}>
         {flattenedItems.map((item) => (
           <SortableTreeItem
@@ -88,22 +82,22 @@ const SortableTree = ({ defaultItems }: SortableTreeProps) => {
             indentionWidth={INDENTION_WIDTH}
           />
         ))}
+
+        {createPortal(
+          <DragOverlay dropAnimation={dropAnimationConfig}>
+            {activeId && activeItem && (
+              <SortableTreeItem
+                item={activeItem}
+                depth={activeItem.depth}
+                indentionWidth={INDENTION_WIDTH}
+                clone
+                childrenCount={getChildrenIds(flattenedItems, activeId).length}
+              />
+            )}
+          </DragOverlay>,
+          document.body
+        )}
       </SortableContext>
-      {/* ドラッグ中に要素がどこに落ちるかを表示するため */}
-      {createPortal(
-        <DragOverlay dropAnimation={dropAnimationConfig}>
-          {activeId && activeItem && (
-            <SortableTreeItem
-              item={activeItem}
-              depth={activeItem.depth}
-              indentionWidth={INDENTION_WIDTH}
-              clone
-              childrenCount={getChildrenIds(flattenedItems, activeId).length}
-            />
-          )}
-        </DragOverlay>,
-        document.body
-      )}
     </DndContext>
   )
 }

@@ -8,7 +8,9 @@ import {
   DragMoveEvent,
   DragOverEvent,
   DragStartEvent,
+  MeasuringStrategy,
   Modifier,
+  closestCenter,
   UniqueIdentifier
 } from '@dnd-kit/core'
 import { buildTree, flattenTree, getChildrenIds, getProjection } from '@/utils'
@@ -53,16 +55,6 @@ export const useSortableTree = ({
     items: flattenedItems,
     offset: offsetLeft
   })
-
-  // const [coordinteGetter] = useState(() =>
-  //   sortableTreeKeyboardCoordinates(sensorContext, indicator, indentationWidth)
-  // )
-  // const sensors = useSensors(
-  //   useSensor(PointerSensor),
-  //   useSensor(KeyboardSensor, {
-  //     coordinateGetter,
-  //   })
-  // );
 
   const sortedIds = useMemo(() => {
     return flattenedItems.map(({ id }) => id)
@@ -126,10 +118,8 @@ export const useSortableTree = ({
       const activeItem = clonedItems[activeIndex]
       const childrenIds = getChildrenIds(clonedItems, activeItem.id)
 
-      // Update depth and parentId
       clonedItems[activeIndex] = { ...activeItem, depth, parentId }
 
-      // Move children with parent
       clonedItems.forEach((item) => {
         if (childrenIds.includes(item.id)) {
           item.depth = depth + 1
@@ -139,8 +129,14 @@ export const useSortableTree = ({
       const sortedItems = arrayMove(clonedItems, activeIndex, overIndex)
       const newItems = buildTree(sortedItems)
 
-      // Remove moved items from expandedIds if they are nested under another item
-      setExpandedIds((expandedIds) => expandedIds.filter((id) => !childrenIds.includes(id)))
+      setExpandedIds((expandedIds) => {
+        const newExpandedIds = expandedIds.filter((id) => !childrenIds.includes(id))
+        if (parentId) {
+          newExpandedIds.push(parentId)
+        }
+
+        return Array.from(new Set(newExpandedIds))
+      })
 
       setItems(newItems)
     }
@@ -250,6 +246,22 @@ export const useSortableTree = ({
     }
   }
 
+  const getDndContextProps = (measuring: {
+    droppable: {
+      strategy: MeasuringStrategy
+    }
+  }) => {
+    return {
+      measuring,
+      collisionDetection: closestCenter,
+      onDragStart: handleDragStart,
+      onDragMove: handleDragMove,
+      onDragOver: handleDragOver,
+      onDragEnd: handleDragEnd,
+      onDragCancel: handleDragCancel
+    }
+  }
+
   return {
     items,
     flattenedItems,
@@ -260,11 +272,7 @@ export const useSortableTree = ({
     activeItem,
     projected,
     expandedIds,
-    handleDragStart,
-    handleDragMove,
-    handleDragOver,
-    handleDragEnd,
-    handleDragCancel,
+    getDndContextProps,
     handleToggleExpand,
     announcements,
     adjustTranslate
