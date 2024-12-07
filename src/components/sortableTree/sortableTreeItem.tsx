@@ -77,12 +77,7 @@ export const SortableTreeItem = ({
           {onExpand && (
             <button
               onClick={onExpand}
-              className="
-                text-gray-500 
-                hover:text-gray-700 
-                rounded 
-                transition-colors
-              "
+              className="text-gray-500 hover:text-gray-700 rounded transition-colors"
             >
               {expanded ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
             </button>

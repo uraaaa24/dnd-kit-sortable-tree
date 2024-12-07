@@ -21,7 +21,6 @@ import { createPortal } from 'react-dom'
 
 const INDENTION_WIDTH = 20
 
-// https://docs.dndkit.com/api-documentation/context-provider#layout-measuring
 const measuring = {
   droppable: {
     strategy: MeasuringStrategy.Always

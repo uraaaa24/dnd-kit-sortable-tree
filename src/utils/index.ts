@@ -1,12 +1,3 @@
-// import {
-//   buildTree,
-//   flattenTree,
-//   getProjection,
-//   getChildCount,
-//   removeItem,
-//   removeChildrenOf,
-//   setProperty,
-// } from './utilities';
 import type { UniqueIdentifier } from '@dnd-kit/core'
 
 import { FlattenedItem, FlattenedItems, TreeItem, TreeItems } from '@/type/treeItem'
